@@ -1,0 +1,9 @@
+package com.samueljuma.gmsmobile.data.network
+
+sealed class NetworkResult<out T> {
+    data class Success<out T>(
+        val data: T,
+        val extra: Map<String, Any>? = null
+    ) : NetworkResult<T>()
+    data class Error(val message: String) : NetworkResult<Nothing>()
+}
