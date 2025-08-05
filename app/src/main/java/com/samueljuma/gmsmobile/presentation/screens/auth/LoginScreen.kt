@@ -85,10 +85,10 @@ fun LoginScreen(
             painter = painterResource(id = R.drawable.gms_logo),
             contentDescription = "GMS Logo",
             modifier = Modifier
-                .size(80.dp)
+                .size(120.dp)
                 .padding(bottom = 16.dp)
         )
-        Spacer(modifier = Modifier.height(50.dp))
+        Spacer(modifier = Modifier.height(30.dp))
         TextField(
             value = username,
             onValueChange = {

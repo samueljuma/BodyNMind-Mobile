@@ -1,6 +1,7 @@
 package com.samueljuma.gmsmobile.domain.models
 
 import com.samueljuma.gmsmobile.data.models.Plan
+import com.samueljuma.gmsmobile.presentation.screens.gymusers.PaymentMethod
 import com.samueljuma.gmsmobile.utils.validateAmountToPay
 
 data class PaymentDetails(

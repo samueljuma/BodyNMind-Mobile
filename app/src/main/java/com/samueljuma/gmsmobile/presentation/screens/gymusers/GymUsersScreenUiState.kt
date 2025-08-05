@@ -24,5 +24,6 @@ data class GymUsersScreenUiState(
     val planExpirationDate: String? = null,
     val paymentRequest: PaymentRequest? = null,
     val paymentDetails: PaymentDetails = PaymentDetails(),
-    val showDatePicker: Boolean = false
+    val showDatePicker: Boolean = false,
+    val showDialogForConfirmingPayments: Boolean = false
 )

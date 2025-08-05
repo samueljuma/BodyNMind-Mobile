@@ -24,6 +24,7 @@ import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.ArrowBackIosNew
 import androidx.compose.material.icons.outlined.Close
 import androidx.compose.material.icons.outlined.Delete
+import androidx.compose.material.icons.outlined.Done
 import androidx.compose.material.icons.outlined.Info
 import androidx.compose.material.icons.outlined.MoreVert
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -119,6 +120,43 @@ fun GymUsersScreen(
         }
     }
     when{
+        gymUsersUiState.showDialogForConfirmingPayments ->{
+            CustomAlertDialog(
+                dialogTitle = "Proceed with Payment Processing",
+                dialogText = "Are you sure you want to proceed?",
+                onDismiss = {
+                    gymUsersViewModel.updateShowDialogForConfirmingPayments(false)
+                },
+                onConfirm = {
+                    val selectedPlan = gymUsersUiState.selectedPlan
+                    selectedPlan?.let { plan->
+                        val paymentDetails = gymUsersUiState.paymentDetails
+                        paymentDetails.validate(plan)
+
+                        gymUsersViewModel.processMemberPayment()
+                        gymUsersViewModel.updateShowDialogForConfirmingPayments(false)
+                        if(paymentDetails.isValid){
+                            //update selected plan
+                            gymUsersUiState.subscriptionPlans?.get(0)?.let {
+                                gymUsersViewModel.updateSelectedPlan(
+                                    plan = it
+                                )
+                            }
+
+                            showBottomSheet = false
+
+
+                        }
+                    }
+
+                },
+                icon = Icons.Outlined.Done,
+                iconColor = MaterialTheme.colorScheme.error,
+                confirmButtonText = "Proceed"
+
+            )
+
+        }
         showAddUSerDialog -> {
             AddUserDialog(
                 userRole = userRole,
@@ -211,7 +249,8 @@ fun GymUsersScreen(
                                 val paymentDetails = gymUsersUiState.paymentDetails
                                 paymentDetails.validate(plan)
 
-                                gymUsersViewModel.processMemberPayment()
+                                gymUsersViewModel.updateShowDialogForConfirmingPayments(true)
+                                showBottomSheet = false
                                 if(paymentDetails.isValid){
                                     //update selected plan
                                     gymUsersUiState.subscriptionPlans?.get(0)?.let {
@@ -219,14 +258,8 @@ fun GymUsersScreen(
                                             plan = it
                                         )
                                     }
-                                    scope.launch { sheetState.hide() }.invokeOnCompletion {
-                                        if (!sheetState.isVisible) {
-                                            showBottomSheet = false
-                                        }
-                                    }
                                 }
                             }
-
                         }
                     )
             }

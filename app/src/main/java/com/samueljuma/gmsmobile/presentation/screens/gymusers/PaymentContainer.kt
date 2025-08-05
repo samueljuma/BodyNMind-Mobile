@@ -82,7 +82,7 @@ fun PaymentContainer(
 
     val isPaymentButtonEnabled = when (selectedPaymentMethod) {
         PaymentMethod.CASH -> true
-        PaymentMethod.MPESA -> paymentRequest?.phone_number?.isNotBlank() == true
+        PaymentMethod.MPESA -> paymentDetails.isValid
     }
 
     when {

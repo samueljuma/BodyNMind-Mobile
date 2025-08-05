@@ -271,8 +271,13 @@ class GymUsersViewModel(
             paymentDetails.validate(selectedPlan)
 
             if(!paymentDetails.isValid){
-                _gymUsersScreenEvent.emit(GymUsersScreenEvent.ShowErrorMessage("Ensure all fields are filled correctly"))
-                return@launch
+                if(_gymUsersScreenUiState.value.paymentRequest?.payment_method == PaymentMethod.MPESA.string){
+                    if(paymentDetails.phoneNumberError != null){
+                        _gymUsersScreenEvent.emit(GymUsersScreenEvent.ShowErrorMessage("Ensure all fields are filled correctly"))
+                        return@launch
+                    }
+                }
+
             }
 
             updatePaymentRequest("phone_number", _gymUsersScreenUiState.value.paymentDetails.phoneNumber)
@@ -604,6 +609,12 @@ class GymUsersViewModel(
                 )
                 else -> state
             }
+        }
+    }
+
+    fun updateShowDialogForConfirmingPayments(show: Boolean){
+        _gymUsersScreenUiState.update {
+            it.copy(showDialogForConfirmingPayments = show)
         }
     }
 

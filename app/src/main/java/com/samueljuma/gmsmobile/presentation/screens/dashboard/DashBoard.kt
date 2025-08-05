@@ -33,7 +33,7 @@ fun DashBoard(
     val isConnected by mainViewModel.isOnline.collectAsStateWithLifecycle()
 
     LaunchedEffect(isConnected) {
-        if (isConnected && dashboardUiState.dashboardSummary == null) {
+        if (isConnected) {
             dashboardViewModel.fetchDashboardSummary()
         }
     }

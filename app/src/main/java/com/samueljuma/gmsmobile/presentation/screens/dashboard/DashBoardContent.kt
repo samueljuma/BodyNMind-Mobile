@@ -65,7 +65,9 @@ import com.samueljuma.gmsmobile.presentation.screens.common.ErrorUIComponent
 import com.samueljuma.gmsmobile.presentation.screens.common.LoadingDialog
 import com.samueljuma.gmsmobile.presentation.screens.gymusers.AddUserDialog
 import com.samueljuma.gmsmobile.ui.theme.primaryLight
+import com.samueljuma.gmsmobile.ui.theme.secondaryContainerLight
 import com.samueljuma.gmsmobile.ui.theme.tertiaryContainerLight
+import com.samueljuma.gmsmobile.ui.theme.tertiaryLight
 import com.samueljuma.gmsmobile.utils.BASE_URL
 import com.samueljuma.gmsmobile.utils.UserRole
 import ir.ehsannarmani.compose_charts.LineChart
@@ -151,7 +153,7 @@ fun DashboardContent(
                     )
                 },
                 menuItems = listOf(
-                    "Profile" to { dashboardViewModel.onProfileMenuItemClicked() },
+//                    "Profile" to { dashboardViewModel.onProfileMenuItemClicked() },
                     "Sign Out" to { authViewModel.logout() }
                 )
             )
@@ -651,15 +653,15 @@ fun MonthlyVsDailySubs(
         Pie(
             label = "Daily",
             data = data.second,
-            color = primaryLight,
-            selectedColor = primaryLight,
+            color = tertiaryLight,
+            selectedColor = tertiaryLight,
             selected = selectedIndex == 0
         ),
         Pie(
             label = "Monthly",
             data = data.first,
-            color = tertiaryContainerLight,
-            selectedColor = tertiaryContainerLight,
+            color = secondaryContainerLight,
+            selectedColor = secondaryContainerLight,
             selected = selectedIndex == 1
         )
     )

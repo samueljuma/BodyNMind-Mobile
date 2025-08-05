@@ -22,7 +22,8 @@ fun CustomAlertDialog(
     dialogTitle: String,
     dialogText: String,
     icon: ImageVector,
-    iconColor: Color
+    iconColor: Color,
+    confirmButtonText: String = "Confirm",
 ) {
     AlertDialog(
         icon = {
@@ -60,7 +61,7 @@ fun CustomAlertDialog(
                 }
             ) {
                 Text(
-                    text = "Confirm",
+                    text = confirmButtonText,
                     style = MaterialTheme.typography.bodyMedium.copy(
                         color = MaterialTheme.colorScheme.primary,
                         fontWeight = FontWeight.Bold
