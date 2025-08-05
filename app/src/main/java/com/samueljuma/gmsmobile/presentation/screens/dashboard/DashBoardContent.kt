@@ -225,8 +225,8 @@ fun DashBoardStats(
                 icon = R.drawable.member_add,
                 modifier = Modifier.weight(1f),
                 itemAndValue = "Members" to dashboardSummary.members,
-                itemTitleColor = MaterialTheme.colorScheme.secondary,
-                itemValueColor = MaterialTheme.colorScheme.secondary,
+                itemTitleColor = MaterialTheme.colorScheme.onPrimary,
+                itemValueColor = MaterialTheme.colorScheme.onPrimary,
                 isClickable = true,
                 onCardClick = onMemberClick
             )
@@ -334,8 +334,8 @@ fun DashBoardStats(
                     modifier = Modifier.weight(1f),
                     iconColor = MaterialTheme.colorScheme.surface,
                     iconBoxColor = MaterialTheme.colorScheme.tertiary,
-                    itemTitleColor = MaterialTheme.colorScheme.secondary,
-                    itemValueColor = MaterialTheme.colorScheme.secondary,
+                    itemTitleColor = MaterialTheme.colorScheme.onPrimary,
+                    itemValueColor = MaterialTheme.colorScheme.onPrimary,
                     backGroundColor = MaterialTheme.colorScheme.tertiaryContainer,
                     itemAndValue = "Cash" to "Ksh ${dashboardSummary.cashSales}",
                 )
@@ -434,7 +434,7 @@ fun DashBoardStats(
                     Line(
                         label = "Member Attendance",
                         values = dashboardSummary.chartData,
-                        color = SolidColor(MaterialTheme.colorScheme.tertiary),
+                        color = SolidColor(MaterialTheme.colorScheme.primary),
                         strokeAnimationSpec = tween(2000, easing = EaseInOutCubic),
                         gradientAnimationDelay = 1000,
                         dotProperties = DotProperties(
@@ -476,9 +476,9 @@ fun ProfileIcon(
     ) {
         AsyncImage(
             model = profileImageUrl,
-            placeholder = painterResource(R.drawable.default_prof),
-            error = painterResource(R.drawable.default_prof),
-            modifier = Modifier.fillMaxSize(),
+            placeholder = painterResource(R.drawable.gms_logo_captionless),
+            error = painterResource(R.drawable.gms_logo_captionless),
+            modifier = Modifier.size(25.dp).align(Alignment.Center),
             contentDescription = "Profile Picture",
             contentScale = ContentScale.Crop,
             alignment = Alignment.Center,
