@@ -14,6 +14,7 @@ import com.samueljuma.gmsmobile.presentation.screens.dashboard.DashBoard
 import com.samueljuma.gmsmobile.presentation.screens.gymusers.GymUsersScreen
 import com.samueljuma.gmsmobile.presentation.screens.markattendance.MarkAttendanceScreen
 import com.samueljuma.gmsmobile.presentation.screens.plans.PlansScreen
+import com.samueljuma.gmsmobile.presentation.screens.trainerpayments.TrainerPaymentsScreen
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
@@ -71,6 +72,13 @@ fun AppNavigation(
                 navController = navController,
                 plansScreenViewModel = koinViewModel(),
             )
+        }
+        composable(AppScreens.TrainerPaymentsScreen.route) {
+            TrainerPaymentsScreen(
+                navController = navController,
+                trainerPaymentsViewModel = koinViewModel()
+            )
+
         }
 
     }

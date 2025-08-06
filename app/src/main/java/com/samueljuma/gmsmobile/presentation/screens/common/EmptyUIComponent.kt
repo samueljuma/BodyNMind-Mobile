@@ -2,8 +2,11 @@ package com.samueljuma.gmsmobile.presentation.screens.common
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Info
 import androidx.compose.material3.Icon
@@ -30,8 +33,10 @@ fun EmptyUIComponent(
         Icon(
             imageVector = Icons.Outlined.Info,
             contentDescription = "Info Icon",
+            modifier = Modifier.size(40.dp),
             tint = MaterialTheme.colorScheme.primary
         )
+        Spacer(modifier = Modifier.height(16.dp))
         Text(
             modifier = Modifier.padding(horizontal = 16.dp),
             text = message ?: "Empty!",

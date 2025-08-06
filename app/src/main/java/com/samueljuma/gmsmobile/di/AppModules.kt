@@ -14,6 +14,7 @@ import com.samueljuma.gmsmobile.presentation.screens.dashboard.DashboardViewMode
 import com.samueljuma.gmsmobile.presentation.screens.gymusers.GymUsersViewModel
 import com.samueljuma.gmsmobile.presentation.screens.markattendance.MarkAttendanceViewModel
 import com.samueljuma.gmsmobile.presentation.screens.plans.PlansScreenViewModel
+import com.samueljuma.gmsmobile.presentation.screens.trainerpayments.TrainerPaymentsViewModel
 import com.samueljuma.gmsmobile.utils.BASE_URL
 import com.samueljuma.gmsmobile.utils.NetworkMonitor
 import io.ktor.client.HttpClient
@@ -95,5 +96,6 @@ val appModules = module {
     viewModel { PlansScreenViewModel(get()) }
 
     viewModel { MainViewModel(get()) }
+    viewModel { TrainerPaymentsViewModel() }
 
 }

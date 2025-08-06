@@ -92,7 +92,7 @@ fun DashBoard(
                             navController.navigate(AppScreens.PlansScreen.route)
                         }
                         DrawerItemLabels.TRAINER_PAYMENTS.label -> {
-                            Toast.makeText(context, "Coming Soon", Toast.LENGTH_SHORT).show()
+                            navController.navigate(AppScreens.TrainerPaymentsScreen.route)
                         }
                         DrawerItemLabels.GYM_EXPENSES.label -> {
                             Toast.makeText(context, "Coming Soon", Toast.LENGTH_SHORT).show()

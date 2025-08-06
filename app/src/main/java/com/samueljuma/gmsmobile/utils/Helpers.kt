@@ -168,3 +168,14 @@ fun String.validateAmountToPay(plan: Plan): String? {
     }
 }
 
+fun String.getDateFromDateTimeStamp(): String{
+    val dateTime = this.split("T")
+    return dateTime.first()
+}
+
+fun String.formatAmount(): String {
+    val formatter = DecimalFormat("#,##0")
+    return formatter.format(this.toDoubleOrNull() ?: 0.0)
+}
+
+

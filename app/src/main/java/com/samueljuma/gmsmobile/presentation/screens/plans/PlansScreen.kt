@@ -158,7 +158,8 @@ fun PlansScreen(
             ) {
                 Icon(
                     imageVector = Icons.Outlined.Add,
-                    contentDescription = "Add Plan"
+                    contentDescription = "Add Plan",
+                    tint = MaterialTheme.colorScheme.onPrimary
                 )
             }
         },
