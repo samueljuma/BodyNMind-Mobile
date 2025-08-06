@@ -67,5 +67,22 @@ class ExpensesRepository(
         }
     }
 
+    suspend fun deleteTrainerPayment(recordID: Int): NetworkResult<Any>{
+        return safeApiCall(dispatcher){
+            val response = apiService.deleteTrainerPayment(recordID)
+            when(response.status){
+                HttpStatusCode.NoContent -> {
+                    val result = response.body<Any>()
+                    NetworkResult.Success(result)
+                }
+                else -> {
+                    val result = response.body<ErrorResponse>()
+                    NetworkResult.Error(result.message)
+                }
+            }
+        }
+
+    }
+
 
 }

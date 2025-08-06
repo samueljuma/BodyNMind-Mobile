@@ -139,4 +139,8 @@ class APIService(
         }
     }
 
+    suspend fun deleteTrainerPayment(recordID: Int): HttpResponse {
+        return client.delete("/api/trainer-payments/$recordID/")
+    }
+
 }

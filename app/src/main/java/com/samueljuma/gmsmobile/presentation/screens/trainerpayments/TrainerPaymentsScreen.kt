@@ -7,7 +7,9 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.ArrowBackIosNew
+import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.FilterList
+import androidx.compose.material.icons.outlined.Delete
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -20,6 +22,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
+import com.samueljuma.gmsmobile.presentation.screens.common.CustomAlertDialog
 import com.samueljuma.gmsmobile.presentation.screens.common.CustomAppBar
 import com.samueljuma.gmsmobile.presentation.screens.common.EmptyUIComponent
 import com.samueljuma.gmsmobile.presentation.screens.common.LoadingDialog
@@ -60,6 +63,18 @@ fun TrainerPaymentsScreen(
                 },
                 trainers = uiState.gymTrainers,
                 trainerPayment = uiState.newTrainerPayment
+            )
+        }
+        uiState.showConfirmDeleteRecordDialog -> {
+            CustomAlertDialog(
+                dialogTitle = "Delete Record",
+                dialogText = "Are you sure you want to delete this record?",
+                onDismiss = { viewModel.updateShowConfirmDeleteDialog(false) },
+                onConfirm = {
+                    viewModel.deleteTrainerPayment()
+                },
+                icon = Icons.Outlined.Delete,
+                iconColor = MaterialTheme.colorScheme.primary
             )
         }
     }
@@ -110,7 +125,16 @@ fun TrainerPaymentsScreen(
                         )
                     }else {
                         TrainerPaymentsTable(
-                            trainerPayments = uiState.trainerPayments
+                            trainerPayments = uiState.trainerPayments,
+                            onEditRecord = {
+                                //TODO
+                            },
+                            onDeleteRecord = { record ->
+                               viewModel.updateShowConfirmDeleteDialog(
+                                   show = true,
+                                   record = record
+                               )
+                            }
                         )
                     }
 

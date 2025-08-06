@@ -3,6 +3,7 @@ package com.samueljuma.gmsmobile.presentation.screens.trainerpayments
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.samueljuma.gmsmobile.data.models.CreateTrainerPaymentDto
+import com.samueljuma.gmsmobile.data.models.TrainerPaymentDto
 import com.samueljuma.gmsmobile.data.network.NetworkResult
 import com.samueljuma.gmsmobile.domain.models.Trainer
 import com.samueljuma.gmsmobile.domain.models.TrainerPayment
@@ -101,6 +102,8 @@ class TrainerPaymentsViewModel(
         }
     }
 
+
+
     fun updateShowAddPaymentDialog(show: Boolean){
         _uiState.update { it.copy(showAddPaymentDialog = show) }
         if(!show){
@@ -166,6 +169,42 @@ class TrainerPaymentsViewModel(
         }
     }
 
+    fun updateShowConfirmDeleteDialog(show: Boolean, record: TrainerPaymentDto? = null){
+        _uiState.update { it.copy(showConfirmDeleteRecordDialog = show, recordToDelete = record) }
+    }
+
+
+    fun deleteTrainerPayment(){
+        if(_uiState.value.recordToDelete == null){
+            showToast("No record to delete")
+            return
+        }
+        _uiState.update { it.copy(isLoading = true, loadingMessage = "Deleting Record...")  }
+        viewModelScope.launch {
+            val result = repository.deleteTrainerPayment(_uiState.value.recordToDelete!!.id)
+            when(result){
+                is NetworkResult.Error -> {
+                    _uiState.update { it.copy(
+                        error = result.message,
+                        isLoading = false,
+                        loadingMessage = ""
+                    ) }
+                    showToast(result.message)
+                }
+                is NetworkResult.Success -> {
+                    _uiState.update { it.copy(
+                        isLoading = false,
+                        loadingMessage = ""
+                    ) }
+                    showToast("Record deleted successfully")
+                    updateShowConfirmDeleteDialog(false)
+                    fetchTrainerPayments(isRefresh = true)
+                }
+            }
+
+        }
+
+    }
 
 
 }

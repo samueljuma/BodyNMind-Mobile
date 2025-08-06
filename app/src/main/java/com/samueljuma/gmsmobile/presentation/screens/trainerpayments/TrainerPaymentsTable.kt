@@ -13,7 +13,6 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.outlined.Delete
 import androidx.compose.material3.HorizontalDivider
@@ -40,7 +39,9 @@ import com.samueljuma.gmsmobile.utils.getDateFromDateTimeStamp
 
 @Composable
 fun TrainerPaymentsTable(
-    trainerPayments: List<TrainerPaymentDto>
+    trainerPayments: List<TrainerPaymentDto>,
+    onEditRecord: (trainerPayment: TrainerPaymentDto) -> Unit,
+    onDeleteRecord: (trainerPayment: TrainerPaymentDto) -> Unit
 ){
     Column(
         modifier = Modifier
@@ -64,8 +65,8 @@ fun TrainerPaymentsTable(
             items(items = trainerPayments){ trainerPayment ->
                 PaymentsDataRow(
                     trainerPayment = trainerPayment,
-                    onEdit = { /*TODO*/ },
-                    onDelete = { /*TODO*/ }
+                    onEdit = { onEditRecord(trainerPayment) },
+                    onDelete = { onDeleteRecord(trainerPayment) }
                 )
             }
         }
