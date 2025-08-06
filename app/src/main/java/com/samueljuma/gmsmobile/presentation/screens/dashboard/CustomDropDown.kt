@@ -63,7 +63,7 @@ fun CustomDropDown(
 
         ExposedDropdownMenu(
             modifier = Modifier
-                .background(MaterialTheme.colorScheme.tertiaryContainer),
+                .background(MaterialTheme.colorScheme.surfaceDim),
             matchTextFieldWidth = true,
             expanded = expanded,
             onDismissRequest = { expanded = false }

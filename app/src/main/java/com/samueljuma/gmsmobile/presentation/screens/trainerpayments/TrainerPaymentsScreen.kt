@@ -51,6 +51,15 @@ fun TrainerPaymentsScreen(
         uiState.isLoading -> {
             LoadingDialog(message = uiState.loadingMessage)
         }
+        uiState.showAddPaymentDialog -> {
+            AddTrainerPaymentDialog(
+                onDismiss = { viewModel.updateShowAddPaymentDialog(false) },
+                onSaveRecord = { /*TODO*/ },
+                onFieldChange = { field, value -> /*TODO*/ },
+                trainers = uiState.gymTrainers,
+                trainerPayment = uiState.newTrainerPayment
+            )
+        }
     }
 
     Scaffold(
@@ -77,7 +86,7 @@ fun TrainerPaymentsScreen(
         },
         floatingActionButton = {
             FloatingActionButton(
-                onClick = {}
+                onClick = {viewModel.updateShowAddPaymentDialog(true)}
             ) {
                 Icon(
                     imageVector = Icons.Default.Add,

@@ -32,6 +32,7 @@ fun CustomTextField(
     keyboardType: KeyboardType = KeyboardType.Text,
     isError: Boolean = false,
     errorMessage: String? = null,
+    maxLines: Int = 1,
     value : String = "",
     enabled: Boolean = true,
     readOnly: Boolean = false,
@@ -47,6 +48,7 @@ fun CustomTextField(
             fontWeight = FontWeight.Bold
         )) },
         enabled = enabled,
+        maxLines = maxLines,
         readOnly = readOnly,
         isError = isError,
         trailingIcon = trailingIcon,
@@ -77,7 +79,8 @@ fun CustomTextField(
                 )
             )
         },
-        singleLine = true,
+        singleLine = maxLines == 1,
+        minLines = maxLines,
         onValueChange = {
             onValueChange(it)
         },

@@ -68,6 +68,10 @@ class TrainerPaymentsViewModel(
         }
     }
 
+    fun updateShowAddPaymentDialog(show: Boolean){
+        _uiState.update { it.copy(showAddPaymentDialog = show) }
+    }
+
     fun showToast(message: String){
         viewModelScope.launch {
             _event.emit(TrainerPaymentsEvent.ShowToastMessage(message))
