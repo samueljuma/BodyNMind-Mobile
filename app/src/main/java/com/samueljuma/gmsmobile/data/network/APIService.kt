@@ -125,4 +125,10 @@ class APIService(
         }
     }
 
+    suspend fun fetchTrainerPayments(): HttpResponse {
+        return client.get("/api/trainer-payments/"){
+            contentType(ContentType.Application.Json)
+        }
+    }
+
 }

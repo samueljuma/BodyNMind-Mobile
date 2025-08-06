@@ -21,7 +21,6 @@ import androidx.core.view.WindowCompat
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.compose.rememberNavController
 import com.samueljuma.gmsmobile.presentation.navigation.AppNavigation
-import com.samueljuma.gmsmobile.presentation.screens.plans.PlansScreen
 import com.samueljuma.gmsmobile.presentation.screens.trainerpayments.TrainerPaymentsScreen
 import com.samueljuma.gmsmobile.ui.theme.GMSMobileTheme
 import org.koin.androidx.compose.koinViewModel
@@ -71,7 +70,7 @@ class MainActivity : ComponentActivity() {
                         TrainerPaymentsScreen(
                             modifier = Modifier.padding(innerPadding),
                             navController = rememberNavController(),
-                            trainerPaymentsViewModel = koinViewModel()
+                            viewModel = koinViewModel()
                         )
                     }
                 )

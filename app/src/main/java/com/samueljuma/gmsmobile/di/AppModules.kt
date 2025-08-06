@@ -6,6 +6,7 @@ import com.samueljuma.gmsmobile.domain.repositories.AuthRepository
 import com.samueljuma.gmsmobile.domain.repositories.DashboardRepository
 import com.samueljuma.gmsmobile.data.session.SessionManager
 import com.samueljuma.gmsmobile.domain.repositories.AttendanceRepository
+import com.samueljuma.gmsmobile.domain.repositories.ExpensesRepository
 import com.samueljuma.gmsmobile.domain.repositories.GymUserRepository
 import com.samueljuma.gmsmobile.domain.repositories.PlansRepository
 import com.samueljuma.gmsmobile.presentation.main.MainViewModel
@@ -87,6 +88,7 @@ val appModules = module {
     single { GymUserRepository(get(), get()) }
     single { AttendanceRepository(get(), get()) }
     single { PlansRepository(get(), get()) }
+    single { ExpensesRepository(get(), get()) }
 
 
     viewModel { AuthViewModel(get()) }
@@ -96,6 +98,6 @@ val appModules = module {
     viewModel { PlansScreenViewModel(get()) }
 
     viewModel { MainViewModel(get()) }
-    viewModel { TrainerPaymentsViewModel() }
+    viewModel { TrainerPaymentsViewModel(get()) }
 
 }

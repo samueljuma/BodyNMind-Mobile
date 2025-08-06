@@ -1,5 +1,9 @@
 package com.samueljuma.gmsmobile.data.models
 
+import kotlinx.serialization.Serializable
+
+
+@Serializable
 data class FetchTrainerPaymentsResponse(
     val status: String,
     val data: List<TrainerPaymentDto>,
@@ -9,6 +13,7 @@ data class FetchTrainerPaymentsResponse(
     val duration: String
 )
 
+@Serializable
 data class TrainerPaymentDto(
     val id: Int,
     val trainer: TrainerDto,
@@ -18,6 +23,7 @@ data class TrainerPaymentDto(
     val updated_at: String
 )
 
+@Serializable
 data class TrainerDto(
     val id: Int,
     val username: String,

@@ -76,7 +76,7 @@ fun AppNavigation(
         composable(AppScreens.TrainerPaymentsScreen.route) {
             TrainerPaymentsScreen(
                 navController = navController,
-                trainerPaymentsViewModel = koinViewModel()
+                viewModel = koinViewModel()
             )
 
         }

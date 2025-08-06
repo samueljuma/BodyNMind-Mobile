@@ -20,3 +20,9 @@ data class GymUser(
     val added_by: Approver? = null,
     val approved_by: Approver? = null
 )
+
+data class Trainer(
+    val id: Int,
+    val username: String,
+    val fullName: String,
+)

@@ -7,20 +7,17 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.ArrowBackIosNew
-import androidx.compose.material.icons.filled.FilterAlt
 import androidx.compose.material.icons.filled.FilterList
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import com.samueljuma.gmsmobile.presentation.screens.common.CustomAppBar
@@ -31,13 +28,23 @@ import com.samueljuma.gmsmobile.presentation.screens.common.LoadingDialog
 fun TrainerPaymentsScreen(
     modifier: Modifier = Modifier,
     navController: NavController,
-    trainerPaymentsViewModel: TrainerPaymentsViewModel
+    viewModel: TrainerPaymentsViewModel
 ){
-    val uiState by trainerPaymentsViewModel.uiState.collectAsStateWithLifecycle()
+    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val context = LocalContext.current
 
     LaunchedEffect(Unit) {
-        trainerPaymentsViewModel.fetchTrainerPayments()
+        viewModel.fetchTrainerPayments()
+    }
+
+    LaunchedEffect(Unit) {
+        viewModel.event.collect { event ->
+            when(event){
+                is TrainerPaymentsEvent.ShowToastMessage -> {
+                    Toast.makeText(context, event.message, Toast.LENGTH_SHORT).show()
+                }
+            }
+        }
     }
 
     when{
