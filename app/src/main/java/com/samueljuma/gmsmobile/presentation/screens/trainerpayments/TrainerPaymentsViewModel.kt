@@ -30,8 +30,11 @@ class TrainerPaymentsViewModel(
     val event = _event.asSharedFlow()
 
     fun fetchTrainerPayments(isRefresh: Boolean = false){
-        _uiState.update { it.copy(isLoading = true,
-            loadingMessage = if(isRefresh) "Refreshing Trainer Payments..." else "Fetching Trainer Payments...")  }
+        _uiState.update { it.copy(
+            isLoading = if(!isRefresh) true else it.isLoading,
+            isRefreshing = if(isRefresh) true else it.isRefreshing,
+            loadingMessage = if(isRefresh) "Refreshing Trainer Payments..." else "Fetching Trainer Payments..."
+        ) }
         viewModelScope.launch {
 
             val result = repository.fetchTrainerPayments()
@@ -39,7 +42,9 @@ class TrainerPaymentsViewModel(
                 is NetworkResult.Error -> {
                     _uiState.update { it.copy(
                         error = result.message,
-                        isLoading = false
+                        isLoading = false,
+                        isRefreshing = false,
+                        loadingMessage = ""
                     ) }
 
                     showToast(result.message)
@@ -47,7 +52,9 @@ class TrainerPaymentsViewModel(
                 is NetworkResult.Success -> {
                     _uiState.update { it.copy(
                         trainerPayments = result.data.data,
-                        isLoading = false
+                        isLoading = false,
+                        isRefreshing = false,
+                        loadingMessage = ""
                     ) }
 
                     //Fetch Trainers for adding any new payments if needed

@@ -6,6 +6,7 @@ import com.samueljuma.gmsmobile.domain.models.TrainerPayment
 
 data class TrainerPaymentsUiState(
     val isLoading: Boolean = false,
+    val isRefreshing: Boolean = false,
     val error: String = "",
     val loadingMessage: String = "",
     val gymTrainers: List<Trainer> = emptyList(),

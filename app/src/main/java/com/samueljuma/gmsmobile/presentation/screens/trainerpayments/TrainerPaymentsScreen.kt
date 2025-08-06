@@ -9,16 +9,20 @@ import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.ArrowBackIosNew
 import androidx.compose.material.icons.filled.FilterList
 import androidx.compose.material.icons.outlined.Delete
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.pulltorefresh.PullToRefreshBox
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import com.samueljuma.gmsmobile.presentation.screens.common.CustomAlertDialog
@@ -26,6 +30,7 @@ import com.samueljuma.gmsmobile.presentation.screens.common.CustomAppBar
 import com.samueljuma.gmsmobile.presentation.screens.common.EmptyUIComponent
 import com.samueljuma.gmsmobile.presentation.screens.common.LoadingDialog
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TrainerPaymentsScreen(
     modifier: Modifier = Modifier,
@@ -128,30 +133,39 @@ fun TrainerPaymentsScreen(
                     .padding(paddingValues)
                     .fillMaxSize()
             ) {
-                if(!uiState.isLoading){
-                    if(uiState.trainerPayments.isEmpty()){
-                        EmptyUIComponent(
-                            message = "No Trainer Payment Records Found"
-                        )
-                    }else {
-                        TrainerPaymentsTable(
-                            trainerPayments = uiState.trainerPayments,
-                            onEditRecord = {
-                                viewModel.updateShowEditPaymentDialog(
-                                    show = true,
-                                    record = it
-                                )
-                            },
-                            onDeleteRecord = { record ->
-                               viewModel.updateShowConfirmDeleteDialog(
-                                   show = true,
-                                   record = record
-                               )
-                            }
-                        )
-                    }
+                PullToRefreshBox(
+                    modifier = Modifier.weight(1f)
+                        .padding(horizontal = 10.dp),
+                    isRefreshing = uiState.isRefreshing,
+                    contentAlignment = Alignment.TopCenter,
+                    onRefresh = { viewModel.fetchTrainerPayments(isRefresh = true) }
+                ) {
+                    if(!uiState.isLoading){
+                        if(uiState.trainerPayments.isEmpty()){
+                            EmptyUIComponent(
+                                message = "No Trainer Payment Records Found"
+                            )
+                        }else {
+                            TrainerPaymentsTable(
+                                trainerPayments = uiState.trainerPayments,
+                                onEditRecord = {
+                                    viewModel.updateShowEditPaymentDialog(
+                                        show = true,
+                                        record = it
+                                    )
+                                },
+                                onDeleteRecord = { record ->
+                                    viewModel.updateShowConfirmDeleteDialog(
+                                        show = true,
+                                        record = record
+                                    )
+                                }
+                            )
+                        }
 
+                    }
                 }
+
 
             }
         }
