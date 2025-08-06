@@ -10,6 +10,7 @@ import com.samueljuma.gmsmobile.domain.models.TrainerPayment
 import com.samueljuma.gmsmobile.domain.repositories.ExpensesRepository
 import com.samueljuma.gmsmobile.domain.toCreateTrainerPaymentDto
 import com.samueljuma.gmsmobile.utils.toTrainer
+import com.samueljuma.gmsmobile.utils.toTrainerPayment
 import com.samueljuma.gmsmobile.utils.validateAmount
 import com.samueljuma.gmsmobile.utils.validateTrainer
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -107,19 +108,19 @@ class TrainerPaymentsViewModel(
     fun updateShowAddPaymentDialog(show: Boolean){
         _uiState.update { it.copy(showAddPaymentDialog = show) }
         if(!show){
-            _uiState.update { it.copy(newTrainerPayment = TrainerPayment()) }
+            _uiState.update { it.copy(newTrainerPaymentDetails = TrainerPayment()) }
         }
     }
 
     fun onSavePaymentRecord() {
-        val newPayment = uiState.value.newTrainerPayment
+        val newPayment = uiState.value.newTrainerPaymentDetails
         val validatedPayment = newPayment.copy(
             trainerError = newPayment.trainer.fullName.validateTrainer(),
             amountError = newPayment.amount.validateAmount()
         )
 
         // Update UI state with validated payment
-        _uiState.update { it.copy(newTrainerPayment = validatedPayment) }
+        _uiState.update { it.copy(newTrainerPaymentDetails = validatedPayment) }
 
         if (!validatedPayment.isValid) {
             when {
@@ -148,7 +149,7 @@ class TrainerPaymentsViewModel(
 
     fun updateNewTrainerPayment(field: String, value: String) {
         _uiState.update { currentState ->
-            val currentPayment = currentState.newTrainerPayment
+            val currentPayment = currentState.newTrainerPaymentDetails
 
             val updatedPayment = when (field) {
                 "trainer" -> currentPayment.copy(
@@ -165,23 +166,94 @@ class TrainerPaymentsViewModel(
                 else -> currentPayment
             }
 
-            currentState.copy(newTrainerPayment = updatedPayment)
+            currentState.copy(newTrainerPaymentDetails = updatedPayment)
         }
     }
 
     fun updateShowConfirmDeleteDialog(show: Boolean, record: TrainerPaymentDto? = null){
-        _uiState.update { it.copy(showConfirmDeleteRecordDialog = show, recordToDelete = record) }
+        _uiState.update { it.copy(showConfirmDeleteRecordDialog = show, selectedRecord = record) }
+    }
+
+    fun updateShowEditPaymentDialog(show: Boolean, record: TrainerPaymentDto? = null){
+        _uiState.update { it.copy(
+            showEditPaymentDialog = show,
+            selectedRecord = record,
+            newTrainerPaymentDetails = record?.toTrainerPayment() ?: TrainerPayment()
+        ) }
+    }
+
+    fun onUpdateRecord(){
+        val newPaymentDetails = uiState.value.newTrainerPaymentDetails
+        val validatedPayment = newPaymentDetails.copy(
+            trainerError = newPaymentDetails.trainer.fullName.validateTrainer(),
+            amountError = newPaymentDetails.amount.validateAmount()
+        )
+
+        // Update UI state with validated payment
+        _uiState.update { it.copy(newTrainerPaymentDetails = validatedPayment) }
+
+        if (!validatedPayment.isValid) {
+            when {
+                validatedPayment.trainerError != null -> {
+                    showToast(validatedPayment.trainerError)
+                    return
+                }
+                validatedPayment.amountError != null -> {
+                    showToast(validatedPayment.amountError)
+                    return
+                }
+            }
+        } else {
+            updateTrainerPayment(newPaymentDetails.toCreateTrainerPaymentDto())
+
+        }
+    }
+
+    private fun updateTrainerPayment(request: CreateTrainerPaymentDto) {
+        if(_uiState.value.selectedRecord == null){
+            showToast("No record to update")
+            return
+        }
+        _uiState.update { it.copy(isLoading = true, loadingMessage = "Updating Record...")  }
+        viewModelScope.launch {
+            val result = repository.updateTrainerPayment(
+                recordID = _uiState.value.selectedRecord!!.id,
+                request=request
+            )
+
+            when(result){
+                is NetworkResult.Error -> {
+                    _uiState.update { it.copy(
+                        error = result.message,
+                        isLoading = false,
+                        loadingMessage = ""
+                    ) }
+                    showToast(result.message)
+                }
+                is NetworkResult.Success -> {
+                    _uiState.update { it.copy(
+                        isLoading = false,
+                        loadingMessage = ""
+                    ) }
+                    showToast("Record updated successfully")
+                    updateShowEditPaymentDialog(false)
+                    fetchTrainerPayments(isRefresh = true)
+                }
+            }
+
+        }
+
     }
 
 
     fun deleteTrainerPayment(){
-        if(_uiState.value.recordToDelete == null){
+        if(_uiState.value.selectedRecord == null){
             showToast("No record to delete")
             return
         }
         _uiState.update { it.copy(isLoading = true, loadingMessage = "Deleting Record...")  }
         viewModelScope.launch {
-            val result = repository.deleteTrainerPayment(_uiState.value.recordToDelete!!.id)
+            val result = repository.deleteTrainerPayment(_uiState.value.selectedRecord!!.id)
             when(result){
                 is NetworkResult.Error -> {
                     _uiState.update { it.copy(

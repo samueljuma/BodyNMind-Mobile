@@ -63,15 +63,15 @@ class MainActivity : ComponentActivity() {
                         }
                     },
                     content = { innerPadding ->
-//                        AppNavigation(
-//                            modifier = Modifier.padding(innerPadding),
-//                            mainViewModel = mainViewModel
-//                        )
-                        TrainerPaymentsScreen(
+                        AppNavigation(
                             modifier = Modifier.padding(innerPadding),
-                            navController = rememberNavController(),
-                            viewModel = koinViewModel()
+                            mainViewModel = mainViewModel
                         )
+//                        TrainerPaymentsScreen(
+//                            modifier = Modifier.padding(innerPadding),
+//                            navController = rememberNavController(),
+//                            viewModel = koinViewModel()
+//                        )
                     }
                 )
             }

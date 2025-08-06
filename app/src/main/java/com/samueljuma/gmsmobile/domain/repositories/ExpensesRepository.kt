@@ -83,6 +83,22 @@ class ExpensesRepository(
         }
 
     }
+    suspend fun updateTrainerPayment(recordID: Int, request: CreateTrainerPaymentDto): NetworkResult<Any>{
+        return safeApiCall(dispatcher){
+            val response = apiService.updateTrainerPayment(recordID, request)
+            when(response.status){
+                HttpStatusCode.OK -> {
+                    val result = response.body<Any>()
+                    NetworkResult.Success(result)
+                }
+                else -> {
+                    val result = response.body<ErrorResponse>()
+                    NetworkResult.Error(result.message)
+                }
+            }
+        }
+
+    }
 
 
 }

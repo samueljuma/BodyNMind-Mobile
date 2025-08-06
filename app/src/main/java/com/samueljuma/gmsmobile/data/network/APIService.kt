@@ -143,4 +143,11 @@ class APIService(
         return client.delete("/api/trainer-payments/$recordID/")
     }
 
+    suspend fun updateTrainerPayment(recordID: Int, request: CreateTrainerPaymentDto): HttpResponse {
+        return client.patch("/api/trainer-payments/$recordID/") {
+            contentType(ContentType.Application.Json)
+            setBody(request)
+        }
+    }
+
 }

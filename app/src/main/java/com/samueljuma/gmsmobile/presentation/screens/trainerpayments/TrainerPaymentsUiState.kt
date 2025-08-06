@@ -11,7 +11,8 @@ data class TrainerPaymentsUiState(
     val gymTrainers: List<Trainer> = emptyList(),
     val trainerPayments: List<TrainerPaymentDto> = emptyList(),
     val showAddPaymentDialog: Boolean = false,
-    val newTrainerPayment: TrainerPayment = TrainerPayment(),
+    val newTrainerPaymentDetails: TrainerPayment = TrainerPayment(),
     val showConfirmDeleteRecordDialog: Boolean = false,
-    val recordToDelete: TrainerPaymentDto? = null
+    val selectedRecord: TrainerPaymentDto? = null,
+    val showEditPaymentDialog: Boolean = false
 )

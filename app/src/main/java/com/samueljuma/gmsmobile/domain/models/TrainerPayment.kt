@@ -18,9 +18,4 @@ data class TrainerPayment(
         amountError,
         notesError
     ).all { it == null } && noBlankFields
-
-    fun validate(){
-        trainerError ?: trainer.fullName.validateTrainer()
-        amountError ?: amount.validateAmount()
-    }
 }

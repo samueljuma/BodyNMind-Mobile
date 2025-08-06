@@ -7,7 +7,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.ArrowBackIosNew
-import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.FilterList
 import androidx.compose.material.icons.outlined.Delete
 import androidx.compose.material3.FloatingActionButton
@@ -62,7 +61,18 @@ fun TrainerPaymentsScreen(
                     viewModel.updateNewTrainerPayment(field, value)
                 },
                 trainers = uiState.gymTrainers,
-                trainerPayment = uiState.newTrainerPayment
+                trainerPayment = uiState.newTrainerPaymentDetails
+            )
+        }
+        uiState.showEditPaymentDialog ->{
+            TrainerPaymentDetailsDialog(
+                onDismiss = { viewModel.updateShowEditPaymentDialog(false) },
+                onSaveRecord = { viewModel.onUpdateRecord() },
+                onFieldChange = { field, value ->
+                    viewModel.updateNewTrainerPayment(field, value)
+                },
+                trainers = uiState.gymTrainers,
+                trainerPayment = uiState.newTrainerPaymentDetails
             )
         }
         uiState.showConfirmDeleteRecordDialog -> {
@@ -127,7 +137,10 @@ fun TrainerPaymentsScreen(
                         TrainerPaymentsTable(
                             trainerPayments = uiState.trainerPayments,
                             onEditRecord = {
-                                //TODO
+                                viewModel.updateShowEditPaymentDialog(
+                                    show = true,
+                                    record = it
+                                )
                             },
                             onDeleteRecord = { record ->
                                viewModel.updateShowConfirmDeleteDialog(
