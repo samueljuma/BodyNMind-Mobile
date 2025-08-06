@@ -1,11 +1,13 @@
 package com.samueljuma.gmsmobile.domain
 
+import com.samueljuma.gmsmobile.data.models.CreateTrainerPaymentDto
 import com.samueljuma.gmsmobile.data.models.DashboardSummaryResponseDto
 import com.samueljuma.gmsmobile.data.models.GymUserEntryDto
 import com.samueljuma.gmsmobile.data.models.GymUsersResponse
 import com.samueljuma.gmsmobile.domain.models.DashboardSummaryDomain
 import com.samueljuma.gmsmobile.domain.models.GymUser
 import com.samueljuma.gmsmobile.domain.models.GymUserEntry
+import com.samueljuma.gmsmobile.domain.models.TrainerPayment
 import com.samueljuma.gmsmobile.utils.extractDateJoined
 import com.samueljuma.gmsmobile.utils.formatedAsCurrency
 
@@ -91,6 +93,14 @@ fun GymUser.updateWith(entryDto: GymUserEntryDto): GymUser {
         email = entryDto.email ?: this.email,
         role = entryDto.role ?: this.role,
         phone_number = entryDto.phone_number ?: this.phone_number
+    )
+}
+
+fun TrainerPayment.toCreateTrainerPaymentDto(): CreateTrainerPaymentDto {
+    return CreateTrainerPaymentDto(
+        trainer = trainer.id,
+        amount = amount,
+        notes = notes
     )
 }
 

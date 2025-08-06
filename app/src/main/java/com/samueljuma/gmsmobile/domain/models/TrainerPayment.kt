@@ -1,7 +1,10 @@
 package com.samueljuma.gmsmobile.domain.models
 
+import com.samueljuma.gmsmobile.utils.validateAmount
+import com.samueljuma.gmsmobile.utils.validateTrainer
+
 data class TrainerPayment(
-    val trainer: Trainer = Trainer(-1, "", "Select Trainer"),
+    val trainer: Trainer = Trainer(),
     val amount: String = "",
     val notes: String = "",
     val trainerError: String? = null,
@@ -15,4 +18,9 @@ data class TrainerPayment(
         amountError,
         notesError
     ).all { it == null } && noBlankFields
+
+    fun validate(){
+        trainerError ?: trainer.fullName.validateTrainer()
+        amountError ?: amount.validateAmount()
+    }
 }

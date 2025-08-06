@@ -8,6 +8,7 @@ import com.samueljuma.gmsmobile.R
 import com.samueljuma.gmsmobile.data.models.Plan
 import com.samueljuma.gmsmobile.domain.TimeFrame
 import com.samueljuma.gmsmobile.domain.models.GymUser
+import com.samueljuma.gmsmobile.domain.models.Trainer
 import java.text.DecimalFormat
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
@@ -176,6 +177,18 @@ fun String.getDateFromDateTimeStamp(): String{
 fun String.formatAmount(): String {
     val formatter = DecimalFormat("#,##0")
     return formatter.format(this.toDoubleOrNull() ?: 0.0)
+}
+
+fun String.validateAmount(): String? {
+    val inputAmount = this.toDoubleOrNull()
+    if (isBlank()) return "Amount is required*"
+    if (inputAmount == null) return "Invalid amount"
+    return null
+}
+
+fun String.validateTrainer(): String? {
+    if (this == "Select Trainer") return "Please Select Trainer"
+    return null
 }
 
 

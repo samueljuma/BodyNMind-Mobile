@@ -52,10 +52,12 @@ fun TrainerPaymentsScreen(
             LoadingDialog(message = uiState.loadingMessage)
         }
         uiState.showAddPaymentDialog -> {
-            AddTrainerPaymentDialog(
+            TrainerPaymentDetailsDialog(
                 onDismiss = { viewModel.updateShowAddPaymentDialog(false) },
-                onSaveRecord = { /*TODO*/ },
-                onFieldChange = { field, value -> /*TODO*/ },
+                onSaveRecord = { viewModel.onSavePaymentRecord() },
+                onFieldChange = { field, value ->
+                    viewModel.updateNewTrainerPayment(field, value)
+                },
                 trainers = uiState.gymTrainers,
                 trainerPayment = uiState.newTrainerPayment
             )

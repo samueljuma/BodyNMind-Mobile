@@ -8,21 +8,31 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Close
+import androidx.compose.material.icons.filled.Edit
+import androidx.compose.material.icons.outlined.Delete
 import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.samueljuma.gmsmobile.R
 import com.samueljuma.gmsmobile.data.models.TrainerPaymentDto
 import com.samueljuma.gmsmobile.utils.formatAmount
 import com.samueljuma.gmsmobile.utils.formatedAsCurrency
@@ -52,7 +62,11 @@ fun TrainerPaymentsTable(
             modifier = Modifier.weight(1f)
         ) {
             items(items = trainerPayments){ trainerPayment ->
-                PaymentsDataRow(trainerPayment = trainerPayment)
+                PaymentsDataRow(
+                    trainerPayment = trainerPayment,
+                    onEdit = { /*TODO*/ },
+                    onDelete = { /*TODO*/ }
+                )
             }
         }
         TotalsRow(payments = trainerPayments)
@@ -74,17 +88,21 @@ fun PaymentsHeaderRow(){
             .padding(start = 4.dp), textAlign = TextAlign.Start, fontWeight = FontWeight.Bold)
         RecordText(text = "Date", modifier = Modifier.weight(2f), fontWeight = FontWeight.Bold, textAlign = TextAlign.Start)
         RecordText(text = "Notes", modifier = Modifier.weight(2.2f), textAlign = TextAlign.Start, fontWeight = FontWeight.Bold)
+        RecordText(text = "...", modifier = Modifier.weight(1f), textAlign = TextAlign.End, fontWeight = FontWeight.Bold)
     }
 }
 
 @Composable
 fun PaymentsDataRow(
     trainerPayment: TrainerPaymentDto,
+    onEdit: () -> Unit,
+    onDelete: () -> Unit
 ){
     Row(
         modifier = Modifier
             .fillMaxWidth()
             .padding(vertical = 8.dp, horizontal = 4.dp),
+        verticalAlignment = Alignment.CenterVertically
     ) {
         RecordText(text = trainerPayment.trainer.full_name, modifier = Modifier.weight(2f), textAlign = TextAlign.Start)
         RecordText(text = trainerPayment.amount.formatAmount(), color = MaterialTheme.colorScheme.primary, modifier = Modifier
@@ -92,6 +110,32 @@ fun PaymentsDataRow(
             .padding(start = 4.dp), textAlign = TextAlign.Start)
         RecordText(text = trainerPayment.paid_at.getDateFromDateTimeStamp(), modifier = Modifier.weight(2f), textAlign = TextAlign.Start)
         RecordText(text = trainerPayment.notes, modifier = Modifier.weight(2.2f), textAlign = TextAlign.Start, fontSize = 10.sp)
+        Row(
+            modifier = Modifier.weight(1f),
+            horizontalArrangement = Arrangement.End
+        ){
+            IconButton(
+                modifier = Modifier.size(16.dp),
+                onClick = onEdit
+            ) {
+                Icon(
+                    imageVector = Icons.Default.Edit,
+                    contentDescription = "Edit",
+                    tint = colorResource(R.color.green)
+                )
+            }
+            Spacer(modifier = Modifier.width(4.dp))
+            IconButton(
+                modifier = Modifier.size(16.dp),
+                onClick = onDelete
+            ) {
+                Icon(
+                    imageVector = Icons.Outlined.Delete,
+                    contentDescription = "Delete",
+                    tint = MaterialTheme.colorScheme.error
+                )
+            }
+        }
     }
     HorizontalDivider(color = MaterialTheme.colorScheme.primary.copy(0.2f))
 }

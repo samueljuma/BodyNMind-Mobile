@@ -1,5 +1,6 @@
 package com.samueljuma.gmsmobile.data.network
 
+import com.samueljuma.gmsmobile.data.models.CreateTrainerPaymentDto
 import com.samueljuma.gmsmobile.data.models.CreateUpdatePlanRequest
 import com.samueljuma.gmsmobile.data.models.DashboardRequestParams
 import com.samueljuma.gmsmobile.data.models.GymUserEntryDto
@@ -128,6 +129,13 @@ class APIService(
     suspend fun fetchTrainerPayments(): HttpResponse {
         return client.get("/api/trainer-payments/"){
             contentType(ContentType.Application.Json)
+        }
+    }
+
+    suspend fun createTrainerPayment(request: CreateTrainerPaymentDto): HttpResponse {
+        return client.post("/api/trainer-payments/"){
+            contentType(ContentType.Application.Json)
+            setBody(request)
         }
     }
 

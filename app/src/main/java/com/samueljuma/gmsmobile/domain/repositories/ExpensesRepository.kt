@@ -1,5 +1,6 @@
 package com.samueljuma.gmsmobile.domain.repositories
 
+import com.samueljuma.gmsmobile.data.models.CreateTrainerPaymentDto
 import com.samueljuma.gmsmobile.data.models.ErrorResponse
 import com.samueljuma.gmsmobile.data.models.FetchTrainerPaymentsResponse
 import com.samueljuma.gmsmobile.data.models.GymUsersResponse
@@ -48,4 +49,23 @@ class ExpensesRepository(
 
         }
     }
+
+    suspend fun createTrainerPayment(request: CreateTrainerPaymentDto): NetworkResult<Any>{
+        return safeApiCall(dispatcher){
+            val response = apiService.createTrainerPayment(request)
+            when(response.status){
+                HttpStatusCode.Created -> {
+                    val result = response.body<Any>()
+                    NetworkResult.Success(result)
+                }
+                else -> {
+                    val result = response.body<ErrorResponse>()
+                    NetworkResult.Error(result.message)
+                }
+            }
+
+        }
+    }
+
+
 }

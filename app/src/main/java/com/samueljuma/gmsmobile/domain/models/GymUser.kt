@@ -22,7 +22,7 @@ data class GymUser(
 )
 
 data class Trainer(
-    val id: Int,
-    val username: String,
-    val fullName: String
+    val id: Int = -1,
+    val username: String = "",
+    val fullName: String = "Select Trainer"
 )
