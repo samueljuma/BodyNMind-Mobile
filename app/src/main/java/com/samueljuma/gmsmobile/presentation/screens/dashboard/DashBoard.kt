@@ -91,6 +91,12 @@ fun DashBoard(
                         DrawerItemLabels.PLANS.label -> {
                             navController.navigate(AppScreens.PlansScreen.route)
                         }
+                        DrawerItemLabels.TRAINER_PAYMENTS.label -> {
+                            Toast.makeText(context, "Coming Soon", Toast.LENGTH_SHORT).show()
+                        }
+                        DrawerItemLabels.GYM_EXPENSES.label -> {
+                            Toast.makeText(context, "Coming Soon", Toast.LENGTH_SHORT).show()
+                        }
 
                         DrawerItemLabels.LOGOUT.label -> {
                             // Handle Logout

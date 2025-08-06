@@ -32,6 +32,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalConfiguration
@@ -39,6 +40,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import com.samueljuma.gmsmobile.domain.models.UserDomain
 import com.samueljuma.gmsmobile.utils.BASE_URL
@@ -65,7 +67,10 @@ fun DashBoardDrawer(
                 .fillMaxWidth()
                 .background(MaterialTheme.colorScheme.background)
         ) {
-            val drawerItemLabels = DrawerItemLabels.entries.toTypedArray()
+            val drawerItemLabels =
+                if(userDomain.role == "Admin") DrawerItemLabels.entries.toTypedArray()
+                else DrawerItemLabels.entries.filter { !it.isAdminFeature }.toTypedArray()
+
             drawerItemLabels.forEach {
                 DrawerItem(
                     icon = it.icon,
@@ -88,14 +93,33 @@ fun DashBoardDrawer(
                 color = MaterialTheme.colorScheme.primary,
                 modifier = Modifier
                     .padding(16.dp)
-                    .systemBarsPadding()
             )
+            Row (
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(start = 16.dp, bottom = 16.dp)
+                    .systemBarsPadding(),
+                verticalAlignment = Alignment.CenterVertically
+            ){
 
-//            Spacer(modifier = Modifier.height(32.dp))
+                Text(
+                    text = "Powered by",
+                    style = MaterialTheme.typography.bodySmall.copy(
+                        color = MaterialTheme.colorScheme.primary,
+                        fontSize = 10.sp
+                    ),
+                )
+                Spacer(modifier = Modifier.width(6.dp))
+                Text(
+                    text = "PhillQins Hub Ltd",
+                    style = MaterialTheme.typography.bodySmall.copy(
+                        color = Color.Blue,
+                        fontSize = 10.sp
+                    ),
+                )
+            }
+
         }
-
-
-
     }
 
 }
@@ -228,9 +252,11 @@ fun ProfileHeader(
     }
 }
 
-enum class DrawerItemLabels(val label: String, val icon: Int) {
+enum class DrawerItemLabels(val label: String, val icon: Int, val isAdminFeature: Boolean = false) {
     ADD_USER("Add User", R.drawable.trainer_add),
     PLANS("Plans", R.drawable.plan_ic),
     MARK_ATTENDANCE("Mark Attendance", R.drawable.mark_attendance_ic),
+    TRAINER_PAYMENTS("Trainer Payments", R.drawable.trainer_payments_ic, isAdminFeature = true),
+    GYM_EXPENSES("Gym Expenses", R.drawable.expenses_ic, isAdminFeature = true),
     LOGOUT("Logout", R.drawable.logout_ic),
 }
