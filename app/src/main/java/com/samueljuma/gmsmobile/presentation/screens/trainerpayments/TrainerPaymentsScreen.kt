@@ -40,9 +40,6 @@ fun TrainerPaymentsScreen(
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val context = LocalContext.current
 
-    LaunchedEffect(Unit) {
-        viewModel.fetchTrainerPayments()
-    }
 
     LaunchedEffect(Unit) {
         viewModel.event.collect { event ->

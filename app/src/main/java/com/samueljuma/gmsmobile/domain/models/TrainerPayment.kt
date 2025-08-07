@@ -1,8 +1,5 @@
 package com.samueljuma.gmsmobile.domain.models
 
-import com.samueljuma.gmsmobile.utils.validateAmount
-import com.samueljuma.gmsmobile.utils.validateTrainer
-
 data class TrainerPayment(
     val trainer: Trainer = Trainer(),
     val amount: String = "",

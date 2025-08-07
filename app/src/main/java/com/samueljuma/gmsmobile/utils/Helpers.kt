@@ -191,4 +191,14 @@ fun String.validateTrainer(): String? {
     return null
 }
 
+fun String.validateName(): String? {
+    if (isBlank()) return "Name is required*"
+    return null
+}
+
+fun String.validateCategory(): String? {
+    if (this == "Select Category") return "Please Select Category"
+    return null
+}
+
 

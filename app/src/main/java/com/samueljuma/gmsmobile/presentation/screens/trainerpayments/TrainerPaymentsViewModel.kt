@@ -29,6 +29,10 @@ class TrainerPaymentsViewModel(
     private val _event = MutableSharedFlow<TrainerPaymentsEvent>()
     val event = _event.asSharedFlow()
 
+    init {
+        fetchTrainerPayments()
+    }
+
     fun fetchTrainerPayments(isRefresh: Boolean = false){
         _uiState.update { it.copy(
             isLoading = if(!isRefresh) true else it.isLoading,
@@ -212,7 +216,6 @@ class TrainerPaymentsViewModel(
             }
         } else {
             updateTrainerPayment(newPaymentDetails.toCreateTrainerPaymentDto())
-
         }
     }
 

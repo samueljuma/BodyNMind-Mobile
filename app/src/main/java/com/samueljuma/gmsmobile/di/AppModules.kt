@@ -12,6 +12,7 @@ import com.samueljuma.gmsmobile.domain.repositories.PlansRepository
 import com.samueljuma.gmsmobile.presentation.main.MainViewModel
 import com.samueljuma.gmsmobile.presentation.screens.auth.AuthViewModel
 import com.samueljuma.gmsmobile.presentation.screens.dashboard.DashboardViewModel
+import com.samueljuma.gmsmobile.presentation.screens.expenses.ExpensesViewModel
 import com.samueljuma.gmsmobile.presentation.screens.gymusers.GymUsersViewModel
 import com.samueljuma.gmsmobile.presentation.screens.markattendance.MarkAttendanceViewModel
 import com.samueljuma.gmsmobile.presentation.screens.plans.PlansScreenViewModel
@@ -99,5 +100,6 @@ val appModules = module {
 
     viewModel { MainViewModel(get()) }
     viewModel { TrainerPaymentsViewModel(get()) }
+    viewModel { ExpensesViewModel(get()) }
 
 }

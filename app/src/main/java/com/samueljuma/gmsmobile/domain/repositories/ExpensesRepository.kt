@@ -1,7 +1,10 @@
 package com.samueljuma.gmsmobile.domain.repositories
 
+import com.samueljuma.gmsmobile.data.models.CreateExpenseDto
 import com.samueljuma.gmsmobile.data.models.CreateTrainerPaymentDto
 import com.samueljuma.gmsmobile.data.models.ErrorResponse
+import com.samueljuma.gmsmobile.data.models.ExpenseCategoriesResponse
+import com.samueljuma.gmsmobile.data.models.FetchExpensesResponse
 import com.samueljuma.gmsmobile.data.models.FetchTrainerPaymentsResponse
 import com.samueljuma.gmsmobile.data.models.GymUsersResponse
 import com.samueljuma.gmsmobile.data.network.APIService
@@ -99,6 +102,89 @@ class ExpensesRepository(
         }
 
     }
+
+    suspend fun fetchExpenses(): NetworkResult<FetchExpensesResponse>{
+        return safeApiCall(dispatcher){
+            val response = apiService.fetchExpenses()
+            when(response.status){
+                HttpStatusCode.OK -> {
+                    val result = response.body<FetchExpensesResponse>()
+                    NetworkResult.Success(result)
+                }
+                else -> {
+                    val result = response.body<ErrorResponse>()
+                    NetworkResult.Error(result.message)
+                }
+            }
+        }
+    }
+
+    suspend fun createExpense(request: CreateExpenseDto): NetworkResult<Any>{
+        return safeApiCall(dispatcher){
+            val response = apiService.createExpense(request)
+            when(response.status){
+                HttpStatusCode.Created -> {
+                    val result = response.body<Any>()
+                    NetworkResult.Success(result)
+                }
+                else -> {
+                    val result = response.body<ErrorResponse>()
+                    NetworkResult.Error(result.message)
+                }
+            }
+        }
+    }
+
+    suspend fun deleteExpense(recordID: Int): NetworkResult<Any>{
+        return safeApiCall(dispatcher){
+            val response = apiService.deleteExpense(recordID)
+            when(response.status){
+                HttpStatusCode.NoContent -> {
+                    val result = response.body<Any>()
+                    NetworkResult.Success(result)
+                }
+                else -> {
+                    val result = response.body<ErrorResponse>()
+                    NetworkResult.Error(result.message)
+                }
+            }
+        }
+    }
+
+    suspend fun updateExpense(recordID: Int, request: CreateExpenseDto): NetworkResult<Any>{
+        return safeApiCall(dispatcher){
+            val response = apiService.updateExpense(recordID, request)
+            when(response.status){
+                HttpStatusCode.OK -> {
+                    val result = response.body<Any>()
+                    NetworkResult.Success(result)
+                }
+                else -> {
+                    val result = response.body<ErrorResponse>()
+                    NetworkResult.Error(result.message)
+                }
+            }
+        }
+    }
+
+    suspend fun fetchExpenseCategories(): NetworkResult<ExpenseCategoriesResponse>{
+        return safeApiCall(dispatcher){
+            val response = apiService.fetchExpenseCategories()
+            when(response.status){
+                HttpStatusCode.OK -> {
+                    val result = response.body<ExpenseCategoriesResponse>()
+                    NetworkResult.Success(result)
+                }
+                else -> {
+                    val result = response.body<ErrorResponse>()
+                    NetworkResult.Error(result.message)
+                }
+            }
+        }
+
+    }
+
+
 
 
 }

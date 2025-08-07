@@ -1,5 +1,6 @@
 package com.samueljuma.gmsmobile.data.network
 
+import com.samueljuma.gmsmobile.data.models.CreateExpenseDto
 import com.samueljuma.gmsmobile.data.models.CreateTrainerPaymentDto
 import com.samueljuma.gmsmobile.data.models.CreateUpdatePlanRequest
 import com.samueljuma.gmsmobile.data.models.DashboardRequestParams
@@ -148,6 +149,34 @@ class APIService(
             contentType(ContentType.Application.Json)
             setBody(request)
         }
+    }
+
+    suspend fun fetchExpenses(): HttpResponse {
+        return client.get("/api/expenses/"){
+            contentType(ContentType.Application.Json)
+        }
+    }
+
+    suspend fun createExpense(request: CreateExpenseDto): HttpResponse {
+        return client.post("/api/expenses/"){
+            contentType(ContentType.Application.Json)
+            setBody(request)
+        }
+    }
+
+    suspend fun deleteExpense(recordID: Int): HttpResponse {
+        return client.delete("/api/expenses/$recordID/")
+    }
+
+    suspend fun updateExpense(recordID: Int, request: CreateExpenseDto): HttpResponse {
+        return client.patch("/api/expenses/$recordID/") {
+            contentType(ContentType.Application.Json)
+            setBody(request)
+        }
+    }
+
+    suspend fun fetchExpenseCategories(): HttpResponse {
+        return client.get("/api/expense-categories/")
     }
 
 }
