@@ -146,7 +146,6 @@ class TrainerPaymentsViewModel(
             }
         } else {
             createTrainerPayment(newPayment.toCreateTrainerPaymentDto())
-
         }
     }
 

@@ -87,7 +87,7 @@ fun PaymentsHeaderRow(){
         RecordText(text = "Amount", modifier = Modifier
             .weight(1.5f)
             .padding(start = 4.dp), textAlign = TextAlign.Start, fontWeight = FontWeight.Bold)
-        RecordText(text = "Date", modifier = Modifier.weight(2f), fontWeight = FontWeight.Bold, textAlign = TextAlign.Start)
+        RecordText(text = "Created", modifier = Modifier.weight(2f), fontWeight = FontWeight.Bold, textAlign = TextAlign.Start)
         RecordText(text = "Notes", modifier = Modifier.weight(2.2f), textAlign = TextAlign.Start, fontWeight = FontWeight.Bold)
         RecordText(text = "...", modifier = Modifier.weight(1f), textAlign = TextAlign.End, fontWeight = FontWeight.Bold)
     }

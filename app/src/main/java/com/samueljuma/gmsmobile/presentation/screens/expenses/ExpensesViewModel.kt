@@ -179,7 +179,30 @@ class ExpensesViewModel(
     }
 
 
+    fun updateNewExpenseDetails(field: String, value: String){
+        _uiState.update { currentState->
+            val currentExpense = currentState.newExpenseDetails
+            val expenseCategories = currentState.expenseCategories
+            val updatedExpense = when(field){
+                "name" -> currentExpense.copy(
+                    name = value,
+                    nameError = value.validateName()
+                )
+                "amount" -> currentExpense.copy(
+                    amount = value,
+                    amountError = value.validateAmount()
+                )
+                "category" -> currentExpense.copy(
+                    category = expenseCategories.find { it.name == value } ?: expenseCategories.first(),
+                    categoryError = value.validateCategory()
+                )
+                "notes" -> currentExpense.copy(notes = value)
+                else -> currentExpense
 
+            }
+            currentState.copy(newExpenseDetails = updatedExpense)
+        }
+    }
     fun onSaveExpenseRecord(){
         val newExpense = uiState.value.newExpenseDetails
         val validatedExpense = newExpense.copy(
@@ -190,7 +213,7 @@ class ExpensesViewModel(
 
         _uiState.update { it.copy(newExpenseDetails = validatedExpense) }
 
-        if(validatedExpense.isValid){
+        if(!validatedExpense.isValid){
             when{
                 validatedExpense.nameError != null -> {
                     showToast(validatedExpense.nameError)

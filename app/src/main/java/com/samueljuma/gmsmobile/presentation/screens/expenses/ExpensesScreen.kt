@@ -1,18 +1,22 @@
 package com.samueljuma.gmsmobile.presentation.screens.expenses
 
+import android.widget.Toast
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.ArrowBackIosNew
+import androidx.compose.material.icons.filled.FilterList
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.pulltorefresh.PullToRefreshBox
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -34,9 +38,30 @@ fun ExpensesScreen(
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val context = LocalContext.current
 
+    LaunchedEffect(Unit) {
+        viewModel.event.collect { event ->
+            when (event) {
+                is ExpensesEvent.ShowToastMessage -> {
+                    Toast.makeText(context, event.message, Toast.LENGTH_SHORT).show()
+                }
+            }
+        }
+    }
+
     when{
         uiState.isLoading -> {
             LoadingDialog(message = uiState.loadingMessage)
+        }
+        uiState.showAddExpenseDialog -> {
+            ExpensesDialog(
+                expense = uiState.newExpenseDetails,
+                categories = uiState.expenseCategories,
+                onDismiss = { viewModel.updateShowAddExpenseDialog(false) },
+                onSaveRecord = { viewModel.onSaveExpenseRecord() },
+                onFieldChange = { field, value ->
+                    viewModel.updateNewExpenseDetails(field, value)
+                }
+            )
         }
     }
 
@@ -46,7 +71,19 @@ fun ExpensesScreen(
             CustomAppBar(
                 title = "Expenses",
                 navigationIcon = Icons.Default.ArrowBackIosNew,
-                onNavigationIconClick = { navController.popBackStack() }
+                onNavigationIconClick = { navController.popBackStack() },
+                actionIcon = {
+                    IconButton(
+                        onClick = {
+                            Toast.makeText(context, "Filter by category Coming Soon", Toast.LENGTH_SHORT).show()
+                        }
+                    ) {
+                        Icon(
+                            imageVector = Icons.Default.FilterList,
+                            contentDescription = "Filter"
+                        )
+                    }
+                },
             )
         },
         floatingActionButton = {
