@@ -243,7 +243,7 @@ class ExpensesViewModel(
 
         _uiState.update { it.copy(newExpenseDetails = validatedExpense) }
 
-        if(validatedExpense.isValid){
+        if(!validatedExpense.isValid){
             when{
                 validatedExpense.nameError != null -> {
                     showToast(validatedExpense.nameError)
