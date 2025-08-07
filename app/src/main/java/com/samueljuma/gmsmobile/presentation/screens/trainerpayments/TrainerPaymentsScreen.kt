@@ -134,8 +134,7 @@ fun TrainerPaymentsScreen(
                     .fillMaxSize()
             ) {
                 PullToRefreshBox(
-                    modifier = Modifier.weight(1f)
-                        .padding(horizontal = 10.dp),
+                    modifier = Modifier.weight(1f),
                     isRefreshing = uiState.isRefreshing,
                     contentAlignment = Alignment.TopCenter,
                     onRefresh = { viewModel.fetchTrainerPayments(isRefresh = true) }
@@ -146,7 +145,7 @@ fun TrainerPaymentsScreen(
                                 message = "No Trainer Payment Records Found"
                             )
                         }else {
-                            TrainerPaymentsTable(
+                            TrainerPaymentsTable (
                                 trainerPayments = uiState.trainerPayments,
                                 onEditRecord = {
                                     viewModel.updateShowEditPaymentDialog(

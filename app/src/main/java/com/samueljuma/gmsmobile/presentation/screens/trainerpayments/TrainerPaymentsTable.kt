@@ -46,7 +46,7 @@ fun TrainerPaymentsTable(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(16.dp)
+            .padding(vertical = 16.dp, horizontal = 8.dp)
     ) {
         Text(
             text = "Payment Records",
