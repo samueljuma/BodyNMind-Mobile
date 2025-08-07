@@ -239,7 +239,7 @@ class GymUsersViewModel(
                         val currentPaymentDetails = state.paymentDetails
                         state.copy(
                             subscriptionPlans = result.data.data.filter { plan -> plan.active },
-                            selectedPlan = result.data.data.firstOrNull(),
+                            selectedPlan = result.data.data.find { it.name.equals("daily", ignoreCase = true) } ?: result.data.data.firstOrNull(),
                             planExpirationDate = result.data.data.firstOrNull()?.getPlanExpiryDate(),
                             paymentDetails = currentPaymentDetails.copy(
                                 amountValue = result.data.data.firstOrNull()?.price ?: ""

@@ -135,18 +135,8 @@ fun GymUsersScreen(
 
                         gymUsersViewModel.processMemberPayment()
                         gymUsersViewModel.updateShowDialogForConfirmingPayments(false)
-                        if(paymentDetails.isValid){
-                            //update selected plan
-                            gymUsersUiState.subscriptionPlans?.get(0)?.let {
-                                gymUsersViewModel.updateSelectedPlan(
-                                    plan = it
-                                )
-                            }
+                        showBottomSheet = false
 
-                            showBottomSheet = false
-
-
-                        }
                     }
 
                 },
@@ -251,14 +241,6 @@ fun GymUsersScreen(
 
                                 gymUsersViewModel.updateShowDialogForConfirmingPayments(true)
                                 showBottomSheet = false
-                                if(paymentDetails.isValid){
-                                    //update selected plan
-                                    gymUsersUiState.subscriptionPlans?.get(0)?.let {
-                                        gymUsersViewModel.updateSelectedPlan(
-                                            plan = it
-                                        )
-                                    }
-                                }
                             }
                         }
                     )
