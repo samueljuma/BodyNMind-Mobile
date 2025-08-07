@@ -10,6 +10,7 @@ sealed class AppScreens(val route: String) {
 
     object PlansScreen : AppScreens("plans_screen")
     object TrainerPaymentsScreen : AppScreens("trainer_payments_screen")
+    object ExpensesScreen : AppScreens("expenses_screen")
 
 
 }

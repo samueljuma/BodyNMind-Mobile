@@ -64,14 +64,9 @@ class MainActivity : ComponentActivity() {
                         }
                     },
                     content = { innerPadding ->
-//                        AppNavigation(
-//                            modifier = Modifier.padding(innerPadding),
-//                            mainViewModel = mainViewModel
-//                        )
-                        ExpensesScreen(
+                        AppNavigation(
                             modifier = Modifier.padding(innerPadding),
-                            viewModel = koinViewModel(),
-                            navController = rememberNavController()
+                            mainViewModel = mainViewModel
                         )
                     }
                 )

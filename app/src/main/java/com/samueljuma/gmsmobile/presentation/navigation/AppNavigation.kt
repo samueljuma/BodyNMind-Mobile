@@ -11,6 +11,7 @@ import com.samueljuma.gmsmobile.presentation.main.MainViewModel
 import com.samueljuma.gmsmobile.presentation.screens.auth.AuthViewModel
 import com.samueljuma.gmsmobile.presentation.screens.auth.LoginScreen
 import com.samueljuma.gmsmobile.presentation.screens.dashboard.DashBoard
+import com.samueljuma.gmsmobile.presentation.screens.expenses.ExpensesScreen
 import com.samueljuma.gmsmobile.presentation.screens.gymusers.GymUsersScreen
 import com.samueljuma.gmsmobile.presentation.screens.markattendance.MarkAttendanceScreen
 import com.samueljuma.gmsmobile.presentation.screens.plans.PlansScreen
@@ -79,6 +80,13 @@ fun AppNavigation(
                 viewModel = koinViewModel()
             )
 
+        }
+
+        composable(AppScreens.ExpensesScreen.route){
+            ExpensesScreen(
+                navController = navController,
+                viewModel = koinViewModel()
+            )
         }
 
     }

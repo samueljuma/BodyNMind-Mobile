@@ -33,7 +33,6 @@ import com.samueljuma.gmsmobile.presentation.screens.common.LoadingDialog
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ExpensesScreen(
-    modifier: Modifier,
     viewModel: ExpensesViewModel,
     navController: NavController
 ){
@@ -94,7 +93,7 @@ fun ExpensesScreen(
             CustomAppBar(
                 title = "Expenses",
                 navigationIcon = Icons.Default.ArrowBackIosNew,
-                onNavigationIconClick = { navController.popBackStack() },
+                onNavigationIconClick = { navController.navigateUp() },
                 actionIcon = {
                     IconButton(
                         onClick = {
